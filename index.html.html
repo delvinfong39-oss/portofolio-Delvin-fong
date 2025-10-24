@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portofolio Delvin</title>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <style>
+    /* === DASAR === */
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #1f1c2c, #928dab);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      transition: background 1s, color 0.5s;
+      overflow-x: hidden;
+    }
+    body.light {
+      background: linear-gradient(to right, #f2f2f2, #ffffff);
+      color: #222;
+    }
+
+    /* === TOMBOL LAMPU === */
+    .lamp-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.1);
+      border: 2px solid #ffd700;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ffd700;
+      transition: all 0.4s ease;
+      z-index: 10;
+    }
+    .lamp-toggle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px #fff;
+    }
+
+    /* === BACKGROUND ANIMASI ORANG MAIN KOMPUTER === */
+    .bg-anim {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    /* === PARTIKEL CAHAYA === */
+    #particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* === HEADER === */
+    header {
+      text-align: center;
+      padding: 2rem;
+    }
+    header img.profile {
+      width: 150px;
+      border-radius: 50%;
+      box-shadow: 0 0 25px #ffd700;
+      animation: glow 2s infinite alternate;
+      margin-bottom: 1rem;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 10px #fff; }
+      to { box-shadow: 0 0 25px #ffd700; }
+    }
+
+    /* === TEKS BERCAHAYA === */
+    h1 {
+      font-size: 2.7rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 10px #ffd700, 0 0 25px #ffef8a;
+      animation: textGlow 2s ease-in-out infinite alternate;
+    }
+    @keyframes textGlow {
+      from { text-shadow: 0 0 10px #ffd700; }
+      to { text-shadow: 0 0 35px #fff5b5, 0 0 60px #ffd700; }
+    }
+
+    section {
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+    h2 {
+      border-bottom: 2px solid #fff;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 10px #ffd700;
+    }
+
+    ul { list-style: none; padding: 0; }
+    li {
+      margin-bottom: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    li:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 15px #ffd700;
+    }
+
+    /* === TENTANG SAYA === */
+    .about {
+      text-align: center;
+      margin-top: 1.5rem;
+      position: relative;
+      z-index: 5;
+    }
+    .about img {
+      width: 250px;
+      max-width: 80%;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #ffd700;
+      margin-bottom: 1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .about img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 35px #fff5b5;
+    }
+    .about p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      max-width: 700px;
+      margin: auto;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 1rem;
+      border-radius: 10px;
+    }
+
+    /* === ALBUM === */
+    .album {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+    }
+    .album img {
+      width: 250px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .album img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px #ffd700;
+    }
+
+    /* === POPUP STORY === */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 100;
+      animation: fadeIn 0.5s ease forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .popup img {
+      max-width: 80%;
+      max-height: 70%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #ffd700;
+      margin-bottom: 1rem;
+    }
+    .popup p {
+      color: #fff;
+      max-width: 70%;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    .popup button {
+      background: #ffd700;
+      border: none;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    .popup button:hover {
+      background: #fff;
+    }
+
+    /* === SOSMED === */
+    .sosmed-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 1rem;
+    }
+    .sosmed-links a img {
+      width: 40px;
+      filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+      transition: transform 0.3s, filter 0.3s;
+    }
+    .sosmed-links a img:hover {
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 10px #ffd700);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #ddd;
+    }
+    a { color: #ffd700; text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Tombol Lampu -->
+  <div class="lamp-toggle" id="lampToggle" title="Klik untuk ubah mode 💡">💡</div>
+
+  <!-- Background Animasi -->
+  <div class="bg-anim">
+    <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_3rwasyjy.json"
+      background="transparent" speed="1" loop autoplay></lottie-player>
+  </div>
+
+  <!-- Partikel -->
+  <canvas id="particles"></canvas>
+
+  <header>
+    <img src="yud.jpg" alt="Foto Delvin" class="profile" />
+    <h1>Portofolio DELVIN FONG</h1>
+    <p class="tagline">Coding dengan gaya, desain dengan hati. Kerjakan tugas dengan emosi.</p>
+  </header>
+
+  <!-- === TENTANG SAYA === -->
+  <section>
+    <h2>Tentang Saya</h2>
+    <div class="about">
+      <img src="WhatsApp Image 2025-10-21 at 19.14.12_30f80a40.jpg" alt="Foto Delvin" />
+      <p>Halo Saya Delvin, seorang mahasiswa jurusan S1 Informatika angkatan 2024 di Universitas Satya Terra Bhinneka, Fakultas Teknologi dan Ilmu Komputer.</p>
+    </div>
+  </section>
+
+  <!-- === ALBUM STORY === -->
+  <section>
+    <h2>Album Story</h2>
+    <div class="album">
+      <img src="fwq.jpg" alt="kata kata sikit" data-desc="kata kata sikit – terkadang bukan tidak mampu berjuang namun lebih memilih untuk sadar diri ~.">
+      <img src="trm.jpg" alt="kalimat sadboy" data-desc="kalimat sadboy – wajah yang selalu ku ingikan sekarang seperti kenangan hal kisah walau hanya sementara namun perasaan ini selamanya.">
+      <img src="pqw.jpg".jpg" alt="Delvin sad" data-desc="Delvin sad – mata yang indah sifat yang baik mungkin hanya sampai disitu saja kesempatan ku megenal mu!">
+    </div>
+  </section>
+
+  <!-- === SKILL === -->
+  <section>
+    <h2>Skill Utama</h2>
+    <ul>
+      <li><strong>Frontend:</strong> HTML, CSS, JavaScript, React</li>
+      <li><strong>Backend:</strong> Logika pemrograman & API</li>
+      <li><strong>Database:</strong> MySQL & Firebase</li>
+      <li><strong>Desain UI/UX:</strong> Animasi, efek sinematik, layout dinamis</li>
+    </ul>
+  </section>
+
+  <!-- === SOSMED === -->
+  <section>
+    <h2>Hubungi Saya</h2>
+    <div class="sosmed-links">
+      <a href="https://www.instagram.com/besuken7?igsh=MnNwM3M0cmdzbzJz" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" />
+      </a>
+      <a href="https://www.facebook.com/share/1GovHiyzU9/" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook" />
+      </a>
+      <a href="https://www.youtube.com/" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" />
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Delvin. Dibuat dengan semangat dan percaya diri.<br>
+    <a href="mailto:delvinfong39@gmail.com">Email saya untuk kolaborasi</a>
+  </footer>
+
+  <!-- POPUP STORY -->
+  <div class="popup" id="popup">
+    <img id="popupImg" src="" alt="">
+    <p id="popupDesc"></p>
+    <button id="closePopup">Tutup</button>
+  </div>
+
+  <script>
+    // === TOGGLE MODE TERANG/GELAP ===
+    const lampButton = document.getElementById('lampToggle');
+    lampButton.addEventListener('click', () => {
+      document.body.classList.toggle('light');
+    });
+
+    // === POPUP STORY ===
+    const images = document.querySelectorAll('.album img');
+    const popup = document.getElementById('popup');
+    const popupImg = document.getElementById('popupImg');
+    const popupDesc = document.getElementById('popupDesc');
+    const closePopup = document.getElementById('closePopup');
+
+    images.forEach(img => {
+      img.addEventListener('click', () => {
+        popup.style.display = 'flex';
+        popupImg.src = img.src;
+        popupDesc.textContent = img.dataset.desc;
+      });
+    });
+    closePopup.addEventListener('click', () => popup.style.display = 'none');
+
+    // === PARTIKEL CAHAYA ===
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particlesArray = [];
+    class Particle {
+      constructor(x, y, size, speedX, speedY) {
+        this.x = x; this.y = y;
+        this.size = size; this.speedX = speedX; this.speedY = speedY;
+      }
+      update() {
+        this.x += this.speedX; this.y += this.speedY;
+        if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+        if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+      }
+      draw() {
+        ctx.fillStyle = "rgba(255, 215, 0, 0.6)";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function init() {
+      particlesArray = [];
+      for (let i = 0; i < 80; i++) {
+        const size = Math.random() * 2;
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
+        const speedX = (Math.random() - 0.5) * 0.5;
+        const speedY = (Math.random() - 0.5) * 0.5;
+        particlesArray.push(new Particle(x, y, size, speedX, speedY));
+      }
+    }
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particlesArray.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(animate);
+    }
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      init();
+    });
+    init();
+    animate();
+  </script>
+</body>
+</html>
